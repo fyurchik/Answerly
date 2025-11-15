@@ -1,6 +1,9 @@
 class InterviewSession < ApplicationRecord
   belongs_to :user
+  has_many :questions, dependent: :destroy
   has_one_attached :resume
+
+  after_create :enqueue_question_generation
 
   # Validations
   validates :title, presence: true
@@ -33,6 +36,10 @@ class InterviewSession < ApplicationRecord
   scope :by_category, ->(category) { where(interview_category: category) if category.present? }
 
   private
+
+  def enqueue_question_generation
+    GenerateQuestionsJob.perform_later(id)
+  end
 
   def resume_validation
     return unless resume.attached?

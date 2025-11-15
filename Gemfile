@@ -30,6 +30,15 @@ gem "jbuilder"
 # Authentication solution for Rails [https://github.com/heartcombo/devise]
 gem "devise"
 
+# OpenAI API client [https://github.com/alexrudall/ruby-openai]
+gem "ruby-openai"
+
+# Load environment variables from .env file [https://github.com/bkeepers/dotenv]
+gem "dotenv-rails", groups: [:development, :test]
+
+# Background job processing [https://github.com/sidekiq/sidekiq]
+gem "sidekiq", "~> 7.0"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
