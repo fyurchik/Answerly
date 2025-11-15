@@ -25,21 +25,23 @@
   <body class="font-sans bg-page-light">
     <%= render 'shared/navbar' %>
 
-    <!-- Flash Messages -->
-    <% if notice.present? || alert.present? %>
-      <div class="container mx-auto px-4 mt-4">
-        <% if notice %>
-          <div class="bg-success-bg-light border-l-4 border-success p-4 rounded mb-4">
-            <p class="text-success-dark font-medium"><%= notice %></p>
-          </div>
-        <% end %>
-        <% if alert %>
-          <div class="bg-error-bg-light border-l-4 border-error p-4 rounded mb-4">
-            <p class="text-error-dark font-medium"><%= alert %></p>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+    <!-- Toast Notifications Container -->
+    <div class="fixed top-20 right-4 z-50 space-y-4">
+      <% if notice.present? %>
+        <div data-controller="toast"
+             data-toast-message-value="<%= notice %>"
+             data-toast-type-value="notice"
+             data-toast-duration-value="5000">
+        </div>
+      <% end %>
+      <% if alert.present? %>
+        <div data-controller="toast"
+             data-toast-message-value="<%= alert %>"
+             data-toast-type-value="alert"
+             data-toast-duration-value="5000">
+        </div>
+      <% end %>
+    </div>
 
     <main class="container mx-auto px-4 py-8">
       <%= yield %>
