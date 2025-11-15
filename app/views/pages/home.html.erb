@@ -1,0 +1,116 @@
+<div class="min-h-screen">
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-br from-primary via-primary-light to-secondary py-20 px-4">
+    <div class="container mx-auto text-center">
+      <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
+        Welcome to Answerly
+      </h1>
+      <p class="text-xl md:text-2xl text-accent-lightest mb-8 max-w-2xl mx-auto">
+        Your intelligent Q&A platform for finding and sharing knowledge
+      </p>
+      
+      <% if user_signed_in? %>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#" class="bg-white hover:bg-accent text-primary font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg">
+            Ask a Question
+          </a>
+          <a href="#" class="bg-secondary hover:bg-secondary-dark text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg">
+            Browse Questions
+          </a>
+        </div>
+      <% else %>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <%= link_to "Get Started", new_user_registration_path, 
+              class: "bg-white hover:bg-accent text-primary font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg" %>
+          <%= link_to "Sign In", new_user_session_path, 
+              class: "bg-secondary hover:bg-secondary-dark text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="py-20 px-4">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold text-primary text-center mb-12">Why Choose Answerly?</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="bg-white rounded-xl shadow-lg border border-stroke p-8 hover:shadow-xl transition-shadow">
+          <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-primary mb-4">Ask Questions</h3>
+          <p class="text-body-color">
+            Get answers from our community of experts and enthusiasts. No question is too big or small.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white rounded-xl shadow-lg border border-stroke p-8 hover:shadow-xl transition-shadow">
+          <div class="w-16 h-16 bg-secondary rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-secondary mb-4">Share Knowledge</h3>
+          <p class="text-body-color">
+            Help others by sharing your expertise. Build your reputation and make a difference.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white rounded-xl shadow-lg border border-stroke p-8 hover:shadow-xl transition-shadow">
+          <div class="w-16 h-16 bg-accent-dark rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-primary mb-4">Join Community</h3>
+          <p class="text-body-color">
+            Connect with like-minded individuals and grow together in a supportive environment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <% unless user_signed_in? %>
+    <div class="bg-neutral py-16 px-4">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-6">
+          Ready to Get Started?
+        </h2>
+        <p class="text-xl text-body-color mb-8 max-w-2xl mx-auto">
+          Join thousands of users who are already part of our growing community.
+        </p>
+        <%= link_to "Create Your Free Account", new_user_registration_path, 
+            class: "inline-block bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg" %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Stats Section -->
+  <div class="py-16 px-4 bg-white">
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div>
+          <div class="text-4xl font-bold text-primary mb-2">1,000+</div>
+          <div class="text-body-color">Active Users</div>
+        </div>
+        <div>
+          <div class="text-4xl font-bold text-secondary mb-2">5,000+</div>
+          <div class="text-body-color">Questions Answered</div>
+        </div>
+        <div>
+          <div class="text-4xl font-bold text-accent-dark mb-2">98%</div>
+          <div class="text-body-color">Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

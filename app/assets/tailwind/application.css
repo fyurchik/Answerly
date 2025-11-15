@@ -1,1 +1,120 @@
 @import "tailwindcss";
+
+@theme {
+  /* Primary Colors - #2e2b5c */
+  --color-primary: #2e2b5c;
+  --color-primary-dark: #1f1d3d;
+  --color-primary-light: #4a4678;
+  --color-primary-lighter: #6b6894;
+  --color-primary-lightest: #9d9bb8;
+  --color-primary-stroke: #b8b6d0;
+  --color-primary-bg-light: #e8e7f0;
+  --color-primary-bg-light-2: #f3f3f8;
+
+  /* Secondary Colors - #307697 */
+  --color-secondary: #307697;
+  --color-secondary-dark: #245a73;
+  --color-secondary-light: #4a92b3;
+  --color-secondary-lighter: #6daec7;
+  --color-secondary-lightest: #9dcadb;
+  --color-secondary-stroke: #b0d4e2;
+  --color-secondary-bg: #d4e9f2;
+  --color-secondary-bg-light: #e6f2f7;
+  --color-secondary-bg-light-2: #f0f7fa;
+
+  /* Accent Colors - #9dedff */
+  --color-accent: #9dedff;
+  --color-accent-dark: #6de3ff;
+  --color-accent-light: #b8f2ff;
+  --color-accent-lighter: #d4f7ff;
+  --color-accent-lightest: #eafcff;
+
+  /* Neutral Colors - #fee7e3 */
+  --color-neutral: #fee7e3;
+  --color-neutral-dark: #fdd1ca;
+  --color-neutral-light: #fef0ed;
+  --color-neutral-lighter: #fef6f4;
+  --color-neutral-lightest: #fffbfa;
+
+  /* Body Colors */
+  --color-body-color: #485d63;
+  --color-body-color-2: #6c8b94;
+  --color-body-color-light: #9db2b8;
+
+  /* Utility Colors */
+  --color-stroke: #ced9dc;
+  --color-overlay: #111928;
+  --color-white: #ffffff;
+  --color-border: #f2f4fc;
+  --color-row-alt: #f4f7f9;
+
+  /* Gray Scale */
+  --color-gray-1: #f5f7f8;
+  --color-gray-2: #ebf0f1;
+  --color-gray-3: #dde4e6;
+  --color-gray-4: #ced9dc;
+  --color-gray-5: #bac9cd;
+  --color-gray-6: #9db2b8;
+  --color-gray-7: #6c8b94;
+  --color-gray-8: #485d63;
+  --color-gray-9: #2c3e43;
+
+  /* Success Colors */
+  --color-success: #02b659;
+  --color-success-dark: #198342;
+  --color-success-light: #33c46f;
+  --color-success-stroke: #b0e2b9;
+  --color-success-bg: #c9eccf;
+  --color-success-bg-light: #ddf1e0;
+  --color-success-bg-light-2: #ebf8ed;
+
+  /* Warning Colors */
+  --color-warning: #fbbf24;
+  --color-warning-dark: #f59e0b;
+  --color-warning-dark-2: #d97706;
+  --color-warning-light-1: #fde68a;
+  --color-warning-bg-light: #fffbeb;
+  --color-warning-bg: #fef3c7;
+
+  /* Error Colors */
+  --color-error: #bb3e25;
+  --color-error-dark: #91331f;
+  --color-error-light: #d15a42;
+  --color-error-stroke: #f6d3c9;
+  --color-error-bg: #fcebe7;
+  --color-error-bg-light: #fef3f3;
+
+  /* Info Colors */
+  --color-info: #2d68f8;
+  --color-info-dark: #1e4fd6;
+  --color-info-light: #5a87fa;
+  --color-info-stroke: #adbcf2;
+  --color-info-bg: #ecf0ff;
+  --color-info-bg-2: #ecf0ff;
+  --color-info-bg-light: #f5f7ff;
+
+  /* Link Colors */
+  --color-link: #01a9db;
+  --color-link-dark: #0b76b7;
+  --color-link-hover: #18bfff;
+  --color-link-bg: #d0f0fd;
+  --color-link-bg-light: #eaf9ff;
+
+  /* Amber Colors */
+  --color-amber-light-3: #ffe29b;
+  --color-amber-light-5: #fff5d1;
+
+  /* Purple Colors */
+  --color-purple: #8646f4;
+  --color-purple-light-5: #f5f3ff;
+
+  /* Marketing Color */
+  --color-marketing: #3758f9;
+
+  /* Page Colors */
+  --color-page-light: #ebf0f1;
+  --color-page-dark: #090e34;
+
+  /* Font Family */
+  --font-family-sans: Poppins, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
