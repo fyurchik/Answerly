@@ -1,0 +1,118 @@
+<div class="max-w-7xl mx-auto">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8 space-y-4 md:space-y-0">
+    <div>
+      <h1 class="text-4xl font-bold text-primary mb-2">My Interview Sessions</h1>
+      <p class="text-body-color">Prepare for your dream job with personalized interviews</p>
+    </div>
+    <%= link_to new_interview_session_path, class: "bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-sm inline-flex items-center justify-center md:justify-start" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      New Interview Session
+    <% end %>
+  </div>
+
+  <% if @interview_sessions.any? %>
+    <!-- Sessions Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @interview_sessions.each do |session| %>
+        <div class="bg-white rounded-xl shadow-lg border border-stroke hover:shadow-xl transition-shadow">
+          <!-- Card Header -->
+          <div class="p-6 border-b border-stroke">
+            <div class="flex items-start justify-between mb-3">
+              <div class="flex-1">
+                <h3 class="text-xl font-semibold text-primary mb-2 line-clamp-2">
+                  <%= session.title %>
+                </h3>
+                <div class="flex items-center space-x-2">
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary-bg-light text-secondary">
+                    <%= session.interview_category %>
+                  </span>
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent-lightest text-primary">
+                    <%= session.position_level %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-6">
+            <div class="space-y-3 text-sm">
+              <% if session.job_url.present? %>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-link mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                  </svg>
+                  <a href="<%= session.job_url %>" target="_blank" class="text-link hover:text-link-hover truncate">
+                    Job Posting
+                  </a>
+                </div>
+              <% end %>
+
+              <% if session.resume.attached? %>
+                <div class="flex items-center">
+                  <svg class="w-5 h-5 text-error mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                  </svg>
+                  <span class="text-body-color">Resume attached</span>
+                </div>
+              <% end %>
+
+              <div class="flex items-center text-body-color-2">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <%= session.created_at.strftime("%b %d, %Y") %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="px-6 py-4 bg-gray-1 rounded-b-xl flex justify-between items-center">
+            <%= link_to session, class: "text-primary hover:text-primary-dark font-medium text-sm transition-colors" do %>
+              View Details →
+            <% end %>
+            <div class="flex space-x-2">
+              <%= link_to edit_interview_session_path(session), class: "text-secondary hover:text-secondary-dark transition-colors" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+              <% end %>
+              <%= button_to interview_session_path(session), method: :delete, 
+                  data: { turbo_confirm: "Are you sure you want to delete this interview session?" },
+                  class: "text-error hover:text-error-dark transition-colors" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="bg-white rounded-xl shadow-lg border border-stroke p-12 text-center">
+      <div class="max-w-md mx-auto">
+        <div class="w-20 h-20 bg-primary-bg-light rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-primary mb-3">No Interview Sessions Yet</h3>
+        <p class="text-body-color mb-6">
+          Start preparing for your dream job by creating your first interview session.
+        </p>
+        <%= link_to new_interview_session_path, class: "inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-sm" do %>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Create Your First Session
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+

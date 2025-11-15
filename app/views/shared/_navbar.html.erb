@@ -19,8 +19,8 @@
             <span class="text-body-color">
               <%= current_user.email %>
             </span>
-            <%= link_to "Dashboard", root_path, class: "text-body-color hover:text-primary transition-colors font-medium" %>
-            <%= button_to "Sign Out", destroy_user_session_path, method: :delete, 
+            <%= link_to "My Sessions", interview_sessions_path, class: "text-body-color hover:text-primary transition-colors font-medium" %>
+            <%= button_to "Sign Out", destroy_user_session_path, method: :delete,
                 class: "bg-error hover:bg-error-dark text-white px-4 py-2 rounded-lg font-medium transition-colors" %>
           </div>
         <% else %>
@@ -51,8 +51,8 @@
           <div class="px-4 py-2 bg-gray-1 rounded-lg">
             <span class="text-sm text-body-color"><%= current_user.email %></span>
           </div>
-          <%= link_to "Dashboard", root_path, class: "text-body-color hover:text-primary transition-colors font-medium px-4 py-2" %>
-          <%= button_to "Sign Out", destroy_user_session_path, method: :delete, 
+          <%= link_to "My Sessions", interview_sessions_path, class: "text-body-color hover:text-primary transition-colors font-medium px-4 py-2" %>
+          <%= button_to "Sign Out", destroy_user_session_path, method: :delete,
               class: "bg-error hover:bg-error-dark text-white px-4 py-2 rounded-lg font-medium transition-colors text-left" %>
         <% else %>
           <%= link_to "Sign In", new_user_session_path, 

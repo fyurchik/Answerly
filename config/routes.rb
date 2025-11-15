@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
-  root "pages#home"
+  # Interview Sessions (protected by authentication in controller)
+  resources :interview_sessions
+
+  # Root path - Interview Sessions index
+  root "interview_sessions#index"
 end
