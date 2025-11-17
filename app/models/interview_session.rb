@@ -35,6 +35,10 @@ class InterviewSession < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :by_category, ->(category) { where(interview_category: category) if category.present? }
 
+  def ready?
+    questions.all?(&:video_url?)
+  end
+
   private
 
   def enqueue_question_generation
@@ -44,12 +48,10 @@ class InterviewSession < ApplicationRecord
   def resume_validation
     return unless resume.attached?
 
-    # Check file size
     if resume.blob.byte_size > 5.megabytes
       errors.add(:resume, 'must be less than 5MB')
     end
 
-    # Check content type
     unless resume.content_type == 'application/pdf'
       errors.add(:resume, 'must be a PDF file')
     end
