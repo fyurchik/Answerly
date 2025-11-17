@@ -100,7 +100,7 @@ class QuestionGeneratorService
     end
 
     # Ensure we have exactly 10 questions
-    @questions = @questions.first(10)
+    @questions = @questions.first(2)
   end
 
   def save_questions

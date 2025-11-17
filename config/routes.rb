@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   # Interview Sessions (protected by authentication in controller)
   resources :interview_sessions
 
+  # HeyGen webhook
+  post "/heygen/webhook", to: "heygen_webhooks#create"
+
   # Root path - Interview Sessions index
   root "interview_sessions#index"
 end

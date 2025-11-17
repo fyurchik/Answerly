@@ -6,9 +6,11 @@ class GenerateQuestionsJob < ApplicationJob
 
   def perform(interview_session_id)
     interview_session = InterviewSession.find(interview_session_id)
-    
+
     QuestionGeneratorService.call(interview_session)
-    
+
+    GenerateVideosJob.perform_later(interview_session_id)
+
     Rails.logger.info "Successfully generated questions for InterviewSession ##{interview_session_id}"
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.error "InterviewSession ##{interview_session_id} not found: #{e.message}"

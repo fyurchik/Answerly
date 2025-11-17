@@ -39,6 +39,9 @@ gem "dotenv-rails", groups: [:development, :test]
 # Background job processing [https://github.com/sidekiq/sidekiq]
 gem "sidekiq", "~> 7.0"
 
+# HTTP client [https://github.com/jnunemaker/httparty]
+gem "httparty"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
