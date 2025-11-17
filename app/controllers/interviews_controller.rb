@@ -11,13 +11,15 @@ class InterviewsController < ApplicationController
 
   def save_answer
     question = @interview_session.questions.find(params[:question_id])
-    
+
     answer = question.answer || question.build_answer
-    
+
     if params[:video].present?
       answer.video.attach(params[:video])
       answer.save!
-      
+
+      TranscribeAnswerJob.perform_later(answer.id)
+
       render json: { success: true, message: 'Answer saved successfully' }
     else
       render json: { success: false, error: 'No video provided' }, status: :unprocessable_entity
