@@ -103,12 +103,16 @@
 
       <!-- Start Interview Button -->
       <% if @interview_session.ready? %>
+        <% is_resuming = @interview_session.questions.joins(:answer).exists? %>
+
         <div class="bg-gradient-to-br from-primary via-primary-light to-secondary rounded-xl shadow-lg p-8 text-center text-white">
-          <h3 class="text-2xl font-bold mb-3">Ready to Start?</h3>
-          <p class="text-accent-lightest mb-6">Begin your personalized interview session</p>
-          <button class="bg-white hover:bg-accent text-primary font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg">
-            Start Interview Session
-          </button>
+          <h3 class="text-2xl font-bold mb-3"><%= is_resuming ? 'Ready to Resume?' : 'Ready to Start?' %></h3>
+          <p class="text-accent-lightest mb-6">
+            <%= is_resuming ? 'Continue your interview where you left off' : 'Begin your personalized interview session' %>
+          </p>
+          <%= link_to interview_session_interview_path(@interview_session), class: "inline-block bg-white hover:bg-accent text-primary font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg" do %>
+            <%= is_resuming ? 'Resume Interview' : 'Start Interview Session' %>
+          <% end %>
         </div>
       <% else %>
         <div class="bg-info-bg-light border-l-4 border-info rounded-xl shadow-lg p-8 text-center">
@@ -153,20 +157,40 @@
     <!-- Right Column - Quick Actions -->
     <div class="space-y-6">
       <!-- Quick Stats -->
+      <%
+        answered_count = @interview_session.questions.joins(:answer).count
+        total_questions = @interview_session.questions.count
+        completion_percentage = total_questions > 0 ? (answered_count.to_f / total_questions * 100).round : 0
+        is_completed = @interview_session.answered?
+      %>
       <div class="bg-white rounded-xl shadow-lg border border-stroke p-6">
-        <h3 class="text-lg font-semibold text-primary mb-4">Quick Stats</h3>
+        <h3 class="text-lg font-semibold text-primary mb-4">Interview Progress</h3>
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-body-color">Sessions Completed</span>
-            <span class="text-2xl font-bold text-primary">0</span>
+            <span class="text-body-color">Questions Answered</span>
+            <span class="text-2xl font-bold text-primary"><%= answered_count %> / <%= total_questions %></span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-body-color">Average Score</span>
-            <span class="text-2xl font-bold text-secondary">-</span>
+            <span class="text-body-color">Completion</span>
+            <span class="text-2xl font-bold <%= is_completed ? 'text-success' : 'text-secondary' %>">
+              <%= completion_percentage %>%
+            </span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-body-color">Time Practiced</span>
-            <span class="text-2xl font-bold text-accent-dark">0h</span>
+            <span class="text-body-color">Status</span>
+            <% if is_completed %>
+              <span class="px-3 py-1 bg-success-bg text-success-dark font-semibold rounded-full text-sm">
+                ✓ Completed
+              </span>
+            <% elsif answered_count > 0 %>
+              <span class="px-3 py-1 bg-warning-bg text-warning-dark-2 font-semibold rounded-full text-sm">
+                In Progress
+              </span>
+            <% else %>
+              <span class="px-3 py-1 bg-info-bg text-info-dark font-semibold rounded-full text-sm">
+                Not Started
+              </span>
+            <% end %>
           </div>
         </div>
       </div>

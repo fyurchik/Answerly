@@ -16,7 +16,12 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Interview Sessions (protected by authentication in controller)
-  resources :interview_sessions
+  resources :interview_sessions do
+    resource :interview, only: [:show] do
+      post :save_answer
+      post :next_question
+    end
+  end
 
   # HeyGen webhook
   post "/heygen/webhook", to: "heygen_webhooks#create"

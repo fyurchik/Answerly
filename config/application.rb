@@ -26,5 +26,10 @@ module Answerly
 
     # Use Sidekiq for Active Job
     config.active_job.queue_adapter = :sidekiq
+
+    # Active Storage default URL options
+    config.after_initialize do
+      ActiveStorage::Current.url_options = { host: 'localhost', port: 3000, protocol: :http }
+    end
   end
 end

@@ -1,0 +1,98 @@
+<div class="min-h-screen bg-gray-1 flex flex-col"
+     data-controller="interview-recorder"
+     data-interview-recorder-question-id-value="<%= @current_question.id %>"
+     data-interview-recorder-session-id-value="<%= @interview_session.id %>"
+     data-interview-recorder-has-next-value="<%= @question_number < @total_questions %>">
+
+  <!-- Header -->
+  <div class="bg-white border-b border-stroke shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-primary"><%= @interview_session.title %></h1>
+          <p class="text-body-color-2 text-sm">Question <%= @question_number %> of <%= @total_questions %></p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <!-- Progress -->
+          <div class="flex items-center space-x-2">
+            <div class="w-48 bg-gray-2 rounded-full h-2">
+              <div class="bg-gradient-to-r from-secondary to-info h-2 rounded-full transition-all duration-300"
+                   style="width: <%= (@question_number.to_f / @total_questions * 100).round %>%"></div>
+            </div>
+            <span class="text-sm font-medium text-body-color"><%= (@question_number.to_f / @total_questions * 100).round %>%</span>
+          </div>
+          <!-- Pause & Exit Button -->
+          <button data-action="click->interview-recorder#pauseAndExit"
+                  class="bg-warning hover:bg-warning-dark text-white font-semibold px-4 py-2 rounded-lg transition-colors shadow-sm">
+            <span class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Pause & Exit
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex items-center justify-center p-6">
+    <div class="w-full max-w-7xl grid grid-cols-2 gap-6">
+      <!-- Left: Question Video -->
+      <div class="bg-white rounded-xl shadow-lg border border-stroke overflow-hidden">
+        <div class="bg-primary p-4">
+          <h2 class="text-white font-semibold">Interview Question</h2>
+        </div>
+        <div class="aspect-video bg-gray-9 relative">
+          <% if @current_question.video_url.present? %>
+            <video data-interview-recorder-target="questionVideo"
+                   class="w-full h-full object-cover"
+                   src="<%= @current_question.video_url %>">
+            </video>
+          <% else %>
+            <div class="flex items-center justify-center h-full text-white">
+              <p>Video not available</p>
+            </div>
+          <% end %>
+        </div>
+        <div class="p-6">
+          <p class="text-body-color text-lg"><%= @current_question.content %></p>
+        </div>
+      </div>
+
+      <!-- Right: Webcam Recording -->
+      <div class="bg-white rounded-xl shadow-lg border border-stroke overflow-hidden">
+        <div class="bg-secondary p-4">
+          <h2 class="text-white font-semibold">Your Answer</h2>
+        </div>
+        <div class="aspect-video bg-gray-9 relative">
+          <video data-interview-recorder-target="webcamPreview"
+                 class="w-full h-full object-cover mirror"
+                 autoplay
+                 muted>
+          </video>
+          <!-- Recording Indicator -->
+          <div data-interview-recorder-target="recordingIndicator"
+               class="hidden absolute top-4 left-4 flex items-center space-x-2 bg-error bg-opacity-90 text-white px-4 py-2 rounded-full">
+            <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+            <span class="font-semibold">Recording</span>
+            <span data-interview-recorder-target="recordingTimer">0:00</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div data-interview-recorder-target="statusMessage" class="text-center">
+            <p class="text-body-color">Watch the question video. Recording will start automatically when it ends.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mirror {
+    transform: scaleX(-1);
+  }
+</style>
+

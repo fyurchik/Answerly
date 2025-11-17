@@ -39,6 +39,10 @@ class InterviewSession < ApplicationRecord
     questions.all?(&:video_url?)
   end
 
+  def answered?
+    questions.all?{|question| question.answer.present? }
+  end
+
   private
 
   def enqueue_question_generation

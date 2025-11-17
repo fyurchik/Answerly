@@ -20,6 +20,9 @@ Rails.application.configure do
   # Devise mailer configuration
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  # Active Storage URL options
+  config.active_storage.url_options = { host: 'localhost', port: 3000 }
+
   # Allow ngrok hosts for webhooks
   config.hosts << /[a-z0-9]+\.ngrok-free\.app/
 
