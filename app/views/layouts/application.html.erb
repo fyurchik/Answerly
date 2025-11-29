@@ -22,11 +22,11 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="font-sans bg-page-light">
+  <body class="font-sans bg-page-light" <%= "data-controller='user-notifications' data-user-notifications-user-id-value='#{current_user.id}'".html_safe if user_signed_in? %>>
     <%= render 'shared/navbar' %>
 
     <!-- Toast Notifications Container -->
-    <div class="fixed top-20 right-4 z-50 space-y-4">
+    <div class="fixed top-20 right-4 z-50 space-y-4" data-controller="toast">
       <% if notice.present? %>
         <div data-controller="toast"
              data-toast-message-value="<%= notice %>"

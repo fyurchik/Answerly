@@ -1,6 +1,7 @@
 class InterviewSession < ApplicationRecord
   belongs_to :user
   has_many :questions, dependent: :destroy
+  has_one :overall_feedback, dependent: :destroy
   has_one_attached :resume
 
   after_create :enqueue_question_generation
@@ -9,6 +10,7 @@ class InterviewSession < ApplicationRecord
   validates :title, presence: true
   validates :interview_category, presence: true
   validates :position_level, presence: true
+  validates :questions_count, presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 20 }
   validate :resume_validation
 
   # Enums for categories and levels

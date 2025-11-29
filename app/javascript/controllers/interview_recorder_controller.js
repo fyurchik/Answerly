@@ -81,10 +81,9 @@ export default class extends Controller {
       this.showRecordingUI()
       this.startTimer()
       this.startSilenceDetection()
-      
+
       this.updateStatus('Recording your answer...')
     } catch (error) {
-      console.error('Error starting recording:', error)
       this.updateStatus('Error starting recording. Please try again.')
     }
   }
@@ -99,7 +98,6 @@ export default class extends Controller {
 
   startSilenceDetection() {
     this.silenceTimeout = setTimeout(() => {
-      console.log('7 seconds of silence detected, stopping recording')
       this.stopRecording()
     }, this.silenceDurationValue)
   }
@@ -166,7 +164,6 @@ export default class extends Controller {
         this.updateStatus('Error saving answer. Please try again.')
       }
     } catch (error) {
-      console.error('Error uploading answer:', error)
       this.updateStatus('Error uploading answer. Please try again.')
     }
   }
@@ -194,7 +191,7 @@ export default class extends Controller {
         window.location.href = data.redirect_url
       }
     } catch (error) {
-      console.error('Error moving to next question:', error)
+      this.updateStatus('Error moving to next question. Please refresh the page.')
     }
   }
 

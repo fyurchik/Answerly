@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  interview_session: one
+  overall_score: 1
+  summary: MyText
+  key_strengths: MyText
+  areas_for_improvement: MyText
+  recommendations: MyText
+
+two:
+  interview_session: two
+  overall_score: 1
+  summary: MyText
+  key_strengths: MyText
+  areas_for_improvement: MyText
+  recommendations: MyText

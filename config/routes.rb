@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       post :save_answer
       post :next_question
     end
+    resource :feedback, only: [:show]
   end
 
   # HeyGen webhook

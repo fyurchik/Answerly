@@ -1,0 +1,131 @@
+<div class="min-h-screen bg-gray-1 py-8">
+  <div class="max-w-4xl mx-auto px-6">
+    <!-- Header -->
+    <div class="mb-8">
+      <%= link_to interview_sessions_path, class: "inline-flex items-center text-secondary hover:text-secondary-dark mb-4" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to My Interviews
+      <% end %>
+      
+      <h1 class="text-3xl font-bold text-primary mb-2">Interview Feedback</h1>
+      <p class="text-body-color"><%= @interview_session.title %></p>
+    </div>
+
+    <% if @overall_feedback.nil? %>
+      <!-- Loading State -->
+      <div class="bg-info-bg-light border-l-4 border-info rounded-xl shadow-lg p-8 text-center">
+        <div class="flex justify-center mb-4">
+          <svg class="animate-spin h-12 w-12 text-info" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-primary mb-3">Generating Your Feedback</h3>
+        <p class="text-body-color mb-4">
+          Our AI is analyzing your interview performance. This usually takes 1-2 minutes.
+        </p>
+        <button onclick="location.reload()" class="bg-secondary hover:bg-secondary-dark text-white font-semibold px-8 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+          <span class="flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            Refresh Status
+          </span>
+        </button>
+      </div>
+
+      <script>
+        // Auto-refresh every 10 seconds
+        setTimeout(function() {
+          location.reload();
+        }, 10000);
+      </script>
+    <% else %>
+      <!-- Overall Feedback Card -->
+      <div class="bg-white rounded-xl shadow-lg border border-stroke p-8 mb-8">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-primary">Overall Performance</h2>
+          <div class="text-center">
+            <div class="text-6xl font-bold <%= score_color(@overall_feedback.overall_score) %>">
+              <%= @overall_feedback.overall_score %>
+            </div>
+            <div class="text-sm text-body-color-2 mt-1">out of 100</div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Summary -->
+          <div class="bg-gray-1 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              Summary
+            </h3>
+            <p class="text-body-color leading-relaxed"><%= @overall_feedback.summary %></p>
+          </div>
+
+          <!-- Key Strengths -->
+          <div class="bg-success-bg rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-success-dark mb-3 flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Key Strengths
+            </h3>
+            <p class="text-body-color leading-relaxed"><%= @overall_feedback.key_strengths %></p>
+          </div>
+
+          <!-- Areas for Improvement -->
+          <div class="bg-warning-bg-light rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-warning-dark-2 mb-3 flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              Areas for Improvement
+            </h3>
+            <p class="text-body-color leading-relaxed"><%= @overall_feedback.areas_for_improvement %></p>
+          </div>
+
+          <!-- Recommendations -->
+          <% if @overall_feedback.recommendations.present? %>
+            <div class="bg-info-bg-light rounded-lg p-6">
+              <h3 class="text-lg font-semibold text-info-dark mb-3 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+                Recommendations
+              </h3>
+              <p class="text-body-color leading-relaxed"><%= @overall_feedback.recommendations %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4 justify-center">
+        <%= link_to interview_session_path(@interview_session), class: "bg-secondary hover:bg-secondary-dark text-white font-semibold px-8 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg" do %>
+          <span class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+            Review Interview
+          </span>
+        <% end %>
+        
+        <%= link_to interview_sessions_path, class: "bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg" do %>
+          <span class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Start New Interview
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

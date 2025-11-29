@@ -35,17 +35,19 @@ class InterviewsController < ApplicationController
     next_question = @interview_session.questions.where('id > ?', current_question.id).order(:id).first
     
     if next_question
-      render json: { 
-        success: true, 
+      render json: {
+        success: true,
         next_question_id: next_question.id,
         question_number: @interview_session.questions.order(:id).index(next_question) + 1,
         has_next: true
       }
     else
-      render json: { 
-        success: true, 
+      GenerateFeedbackJob.perform_later(@interview_session.id)
+
+      render json: {
+        success: true,
         has_next: false,
-        redirect_url: interview_session_path(@interview_session)
+        redirect_url: interview_session_feedback_path(@interview_session)
       }
     end
   rescue ActiveRecord::RecordNotFound
