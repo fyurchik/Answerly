@@ -62,17 +62,30 @@ class FeedbackGeneratorService
       3. Key strengths demonstrated across all answers
       4. Areas for improvement
       5. Specific actionable recommendations for future interviews
-      
+
       Be constructive, specific, and encouraging while being honest about areas needing improvement.
-      
+
+      IMPORTANT FORMATTING RULES:
+      - For "key_strengths", "areas_for_improvement", and "recommendations" fields:
+        * If providing multiple points, number them (1. 2. 3.)
+        * Put EACH numbered item on a NEW LINE
+        * Use this exact format:
+          1. First point here
+          2. Second point here
+          3. Third point here
+        * DO NOT put multiple numbered items in the same line
+        * DO NOT use inline numbering like "1. First 2. Second 3. Third"
+
       Format your response as JSON:
       {
         "overall_score": 75,
         "summary": "Overall performance summary highlighting main observations...",
-        "key_strengths": "Consistent strengths observed across answers...",
-        "areas_for_improvement": "Key areas to work on with specific examples...",
-        "recommendations": "Specific actionable recommendations for improvement..."
+        "key_strengths": "1. First strength here\\n2. Second strength here\\n3. Third strength here",
+        "areas_for_improvement": "1. First area here\\n2. Second area here\\n3. Third area here",
+        "recommendations": "1. First recommendation here\\n2. Second recommendation here\\n3. Third recommendation here"
       }
+
+      Note: Use \\n for line breaks in the JSON string values.
     PROMPT
   end
 
