@@ -13,7 +13,8 @@ export default class extends Controller {
     questionId: Number,
     sessionId: Number,
     hasNext: Boolean,
-    silenceDuration: { type: Number, default: 7000 },
+    silenceThreshold: { type: Number, default: -50 }, // dB threshold for silence
+    silenceDuration: { type: Number, default: 3000 }, // 3 seconds of silence to skip
     nextQuestionDelay: { type: Number, default: 3000 }
   }
 
@@ -21,10 +22,14 @@ export default class extends Controller {
     this.mediaRecorder = null
     this.recordedChunks = []
     this.stream = null
-    this.silenceTimeout = null
     this.recordingStartTime = null
     this.timerInterval = null
-    
+
+    this.audioContext = null
+    this.analyser = null
+    this.silenceStartTime = null
+    this.audioCheckInterval = null
+
     this.initializeWebcam()
   }
 
@@ -91,22 +96,75 @@ export default class extends Controller {
   stopRecording() {
     if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
       this.mediaRecorder.stop()
-      this.clearSilenceTimeout()
+      this.stopSilenceDetection()
       this.stopTimer()
     }
   }
 
   startSilenceDetection() {
-    this.silenceTimeout = setTimeout(() => {
-      this.stopRecording()
-    }, this.silenceDurationValue)
+    if (!this.stream) return
+
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    this.analyser = this.audioContext.createAnalyser()
+    this.analyser.fftSize = 512
+    this.analyser.smoothingTimeConstant = 0.3
+
+    const source = this.audioContext.createMediaStreamSource(this.stream)
+    source.connect(this.analyser)
+
+    this.silenceStartTime = null
+    this.dataArray = new Float32Array(this.analyser.frequencyBinCount)
+
+    // Check audio levels every 100ms
+    this.audioCheckInterval = setInterval(() => {
+      this.checkAudioLevel()
+    }, 100)
   }
 
-  clearSilenceTimeout() {
-    if (this.silenceTimeout) {
-      clearTimeout(this.silenceTimeout)
-      this.silenceTimeout = null
+  checkAudioLevel() {
+    if (!this.analyser) return
+
+    this.analyser.getFloatTimeDomainData(this.dataArray)
+
+    // Calculate RMS (Root Mean Square) for volume level
+    let sumSquares = 0
+    for (let i = 0; i < this.dataArray.length; i++) {
+      sumSquares += this.dataArray[i] * this.dataArray[i]
     }
+    const rms = Math.sqrt(sumSquares / this.dataArray.length)
+
+    // Convert to decibels (dB)
+    const db = 20 * Math.log10(rms + 0.0001) // Add small value to avoid log(0)
+
+    const isSilent = db < this.silenceThresholdValue
+
+    if (isSilent) {
+      if (this.silenceStartTime === null) {
+        this.silenceStartTime = Date.now()
+      } else {
+        const silenceDuration = Date.now() - this.silenceStartTime
+        if (silenceDuration >= this.silenceDurationValue) {
+          console.log(`Silence detected for ${silenceDuration}ms, stopping recording`)
+          this.stopRecording()
+        }
+      }
+    } else {
+      // User is speaking, reset silence timer
+      this.silenceStartTime = null
+    }
+  }
+
+  stopSilenceDetection() {
+    if (this.audioCheckInterval) {
+      clearInterval(this.audioCheckInterval)
+      this.audioCheckInterval = null
+    }
+    if (this.audioContext) {
+      this.audioContext.close()
+      this.audioContext = null
+    }
+    this.analyser = null
+    this.silenceStartTime = null
   }
 
   startTimer() {
@@ -212,7 +270,7 @@ export default class extends Controller {
     if (this.stream) {
       this.stream.getTracks().forEach(track => track.stop())
     }
-    this.clearSilenceTimeout()
+    this.stopSilenceDetection()
     this.stopTimer()
   }
 }
