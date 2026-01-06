@@ -37,7 +37,7 @@ gem "ruby-openai"
 gem "dotenv-rails", groups: [:development, :test]
 
 # Background job processing [https://github.com/sidekiq/sidekiq]
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 8.1"
 
 # HTTP client [https://github.com/jnunemaker/httparty]
 gem "httparty"
